@@ -8,6 +8,12 @@ public class MultiMagicDungeon : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
+		// Expose subdirectories so #include "Core/Foo.h" works across the module.
+		PrivateIncludePaths.AddRange(new string[]
+		{
+			ModuleDirectory,
+		});
+
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
