@@ -17,7 +17,7 @@ _This file tracks active and recently completed work. Historical tasks live in `
 
 | Task | Summary | Date |
 |---|---|---|
-| — | Project scaffolded, repo initialized, workspace created | 2026-03-08 |
+| Setup | Project scaffolded, repo initialized, workspace, CLI | 2026-03-08 |
 
 ---
 
