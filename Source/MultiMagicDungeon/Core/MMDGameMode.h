@@ -14,4 +14,7 @@ class MULTIMAGICDUNGEON_API AMMDGameMode : public AGameModeBase
 
 public:
 	AMMDGameMode();
+
+protected:
+	virtual void BeginPlay() override;
 };
