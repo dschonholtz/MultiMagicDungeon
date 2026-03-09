@@ -6,7 +6,10 @@ _This file tracks active and recently completed work. Historical tasks live in `
 
 ## Active Tasks
 
-_None yet — Phase 0 planning complete, ready to begin implementation._
+| Task | Branch | Status |
+|---|---|---|
+| [TASK-001: Multiplayer Module Dependencies](tasks/TASK-001-multiplayer-modules.md) | `task/001-multiplayer-modules` | IN_REVIEW |
+| [TASK-002: Base C++ Framework Classes](tasks/TASK-002-base-cpp-classes.md) | `task/002-base-cpp-classes` | IN_REVIEW |
 
 ---
 
