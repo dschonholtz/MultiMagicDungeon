@@ -5,9 +5,11 @@ Run this before every commit. Do not commit if any step fails.
 ## Steps
 
 1. **Compile check**
-   - Confirm the project compiles without errors or new warnings
-   - If UBT is accessible: run `Build.bat MultiMagicDungeon Win64 Development`
-   - If not: note that a manual compile check is required before pushing
+   Run this exact command and confirm output ends with `Result: Succeeded`:
+   ```powershell
+   powershell -Command "& 'C:\Program Files\Epic Games\UE_5.7\Engine\Build\BatchFiles\Build.bat' MultiMagicDungeon Win64 Development -Project='C:\Users\schon\OneDrive\Documents\Unreal Projects\MultiMagicDungeon\MultiMagicDungeon.uproject' -WaitMutex 2>&1 | Select-Object -Last 20"
+   ```
+   If output contains errors or warnings introduced by the current change: stop, fix, rerun.
 
 2. **Run /review**
    - Execute the full review checklist from `.claude/commands/review.md`
