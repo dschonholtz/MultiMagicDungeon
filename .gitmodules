@@ -1,3 +1,3 @@
-[submodule "tools/mmd-cli"]
-	path = tools/mmd-cli
-	url = git@github.com:dschonholtz/mmd-cli.git
+[submodule "tools/unreal-cli"]
+	path = tools/unreal-cli
+	url = git@github.com:dschonholtz/unreal-cli.git
