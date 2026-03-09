@@ -50,12 +50,26 @@ We build in phases:
 
 ---
 
-## Tech Stack (2026-03-08)
+## Tech Stack (2026-03-08, updated 2026-03-08)
 
 - Engine: UE 5.7
 - Language: C++ authority, Blueprints for VFX/UI/data only
 - Spells: Gameplay Ability System (GAS)
 - Sessions (Phase 0–2): OnlineSubsystemNull (LAN/dev)
-- Sessions (Phase 3+): Steam or EOS (decision deferred)
-- Backend (Phase 4+): TBD — likely a lightweight REST API + PostgreSQL
-- Dedicated server: Required for Phase 5; listen server acceptable for Phase 0–2
+- Sessions (Phase 5+): Steam or EOS (decision deferred)
+- **Backend (Phase 4+): Supabase** (Postgres + auto-generated REST API + auth + realtime)
+  - Player data, dungeon registry, inventory, leaderboards
+  - UE server talks to Supabase via HTTP using `FHttpModule`
+  - Supabase chosen: familiar SQL, no backend service to maintain, generous free tier
+- **Server hosting: Hetzner VPS** (Linux, Ubuntu 22.04)
+  - Dedicated server binary cross-compiled from Windows → Linux
+  - Listen server acceptable for Phase 0–2 dev
+  - Hetzner VPS provisioned when Phase 3 packaging begins
+
+## Code Quality Standards (2026-03-08)
+
+- All code reviewed via `/review` (staff game dev checklist) before commit
+- Simplification pass via `/simplify` before commit
+- Pre-commit gate `/pre-commit` must pass: compile clean + review approved + tests pass + docs updated
+- Single-responsibility classes — no God actors
+- No gameplay logic in Blueprints

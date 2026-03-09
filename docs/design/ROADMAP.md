@@ -47,24 +47,35 @@ _Goal: A playable dungeon loop with AI enemies and loot._
 
 ---
 
-## Phase 4 — Persistence + Backend
-_Goal: Player progress and dungeon layouts survive sessions._
+## Phase 4 — Persistence + Backend (Supabase)
+_Goal: Player progress and dungeon layouts survive sessions. Supabase as backend._
 
-- TASK-018: Simple REST backend (player data, dungeon storage)
-- TASK-019: Dungeon creation tools (in-game editor, tile-based TBD)
-- TASK-020: Dungeon registry (list available dungeons to raid)
-- TASK-021: Cloud saves for player inventory/progress
+- TASK-018: Supabase project setup + schema (players, dungeons, inventory tables)
+- TASK-019: UE HTTP client wrapper for Supabase REST API (`UMMDSupabaseClient`)
+- TASK-020: Player data persistence (save/load on session join/leave)
+- TASK-021: Dungeon layout persistence (save player's dungeon, load on entry)
+- TASK-022: Dungeon registry query (list available dungeons to raid)
+- TASK-023: Dungeon creation tools (in-engine tile editor, TBD design)
 
 ---
 
-## Phase 5 — Persistent Overworld
+## Phase 5 — Dedicated Server + Hetzner
+_Goal: Packaged server binary running on Linux VPS. Real clients connecting._
+
+- TASK-024: Linux cross-compile toolchain setup
+- TASK-025: Server target file (`MultiMagicDungeonServer.Target.cs`)
+- TASK-026: Package + deploy to Hetzner VPS (Ubuntu 22.04)
+- TASK-027: Startup scripts + basic server monitoring
+
+---
+
+## Phase 6 — Persistent Overworld
 _Goal: Always-on world, dungeons as physical places, seamless travel._
 
-- TASK-022: Dedicated server build + hosting setup
-- TASK-023: Overworld map with dungeon entrance objects
-- TASK-024: Seamless travel overworld ↔ dungeon instance
-- TASK-025: Instance pool (spin up/down dungeon servers on demand)
-- TASK-026: Session/EOS or Steam integration for discovery
+- TASK-028: Overworld map with dungeon entrance actors
+- TASK-029: Seamless travel overworld ↔ dungeon instance (`bUseSeamlessTravel`)
+- TASK-030: Instance pool (spin up/down dungeon server processes on demand)
+- TASK-031: Session/EOS or Steam integration for player discovery
 
 ---
 
