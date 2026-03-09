@@ -44,7 +44,7 @@ MultiMagicDungeon/          ← UE 5.7 C++ project root
 │   └── (Core/ Character/ AbilitySystem/ Dungeon/ Enemy/ UI/ — added per phase)
 ├── Config/                 ← DefaultGame.ini, DefaultEngine.ini etc.
 └── tools/
-    └── mmd-cli/            ← Git submodule: dschonholtz/mmd-cli (Python dev CLI)
+    └── unreal-cli/         ← Git submodule: dschonholtz/unreal-cli (Python dev CLI)
 ```
 
 **Do not commit:** `Binaries/` `Intermediate/` `Saved/` `DerivedDataCache/` — all gitignored.
@@ -59,7 +59,7 @@ This is a **Windows machine running bash (Git Bash)**. There is a critical split
 |---|---|
 | Git, file ops, grep, Python | bash (works fine) |
 | Calling `.bat` files (UBT, UAT) | **PowerShell only** — bash cannot handle spaces in the path |
-| Running the mmd CLI | PowerShell or bash via `uv run mmd` |
+| Running the `ue` CLI | PowerShell or bash via `uv run ue` |
 
 **Compile command (always use this exact form):**
 ```powershell
@@ -69,15 +69,15 @@ Success: output ends with `Result: Succeeded`
 
 ---
 
-## Available CLI — mmd
+## Available CLI — `ue`
 
-The `mmd` CLI lives at `tools/mmd-cli/` (git submodule). See its `CLAUDE.md` for full docs.
+The `ue` CLI lives at `tools/unreal-cli/` (git submodule). See its `CLAUDE.md` for full docs.
 
 ```bash
-cd tools/mmd-cli
-uv run mmd build client     # compile via UBT
-uv run mmd test run         # run automation tests
-uv run mmd logs local -f    # tail log file
+cd tools/unreal-cli
+uv run ue build client     # compile via UBT
+uv run ue test run         # run automation tests
+uv run ue logs tail -f     # tail log file
 ```
 
 `uv` manages the Python env automatically — no manual venv activation needed.
@@ -104,10 +104,10 @@ to invoke them; read the file and execute the checklist yourself.
 
 ## Pre-Commit Workflow (Short Form)
 
-1. `mmd build client` — must end `Result: Succeeded`
+1. `ue build client` — must end `Result: Succeeded`
 2. `/review` — must be APPROVE or APPROVE WITH NITS (no blockers)
 3. `/simplify` — apply all REMOVE items; log SPLIT items in task file
-4. `mmd test run` — all tests pass
+4. `ue test run` — all tests pass
 5. Update task file status → DONE; update `docs/PROGRESS.md`
 6. `git commit` with format: `type(TASK-NNN): short description`
 7. `git push`
@@ -143,12 +143,12 @@ Status values: `PLANNED` → `IN_PROGRESS` → `IN_REVIEW` → `DONE` (or `CANCE
 | Thing | Value |
 |---|---|
 | Game repo | `git@github.com:dschonholtz/MultiMagicDungeon.git` (branch: `master`) |
-| CLI repo | `git@github.com:dschonholtz/mmd-cli.git` (branch: `main`) |
+| CLI repo | `git@github.com:dschonholtz/unreal-cli.git` (branch: `main`) |
 | Clone fresh | `git clone --recurse-submodules git@github.com:dschonholtz/MultiMagicDungeon.git` |
 | UE engine | `C:\Program Files\Epic Games\UE_5.7` |
 | gh CLI | `C:\Program Files\GitHub CLI\gh.exe` |
 | SSH key | `~/.ssh/mmd_github` (configured in `~/.ssh/config`) |
-| Python | Managed by `uv` inside `tools/mmd-cli/` |
+| Python | Managed by `uv` inside `tools/unreal-cli/` |
 
 ---
 
