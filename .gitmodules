@@ -1,0 +1,3 @@
+[submodule "tools/mmd-cli"]
+	path = tools/mmd-cli
+	url = git@github.com:dschonholtz/mmd-cli.git
