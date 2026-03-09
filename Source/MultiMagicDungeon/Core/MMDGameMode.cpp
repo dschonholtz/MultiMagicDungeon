@@ -4,6 +4,7 @@
 #include "Character/MMDPlayerCharacter.h"
 #include "Character/MMDPlayerController.h"
 #include "Online/MMDSessionSubsystem.h"
+#include "UI/MMDHUD.h"
 #include "MMDLog.h"
 
 AMMDGameMode::AMMDGameMode()
@@ -15,6 +16,7 @@ AMMDGameMode::AMMDGameMode()
 	PlayerStateClass      = AMMDPlayerState::StaticClass();
 	DefaultPawnClass      = AMMDPlayerCharacter::StaticClass();
 	PlayerControllerClass = AMMDPlayerController::StaticClass();
+	HUDClass              = AMMDHUD::StaticClass();
 }
 
 void AMMDGameMode::BeginPlay()
