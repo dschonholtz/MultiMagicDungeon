@@ -40,12 +40,27 @@ UFUNCTION(Client, Reliable)
 void Client_ShowDamageNumber(float Damage, FVector WorldPos);
 ```
 
-## Session Architecture
+## Seamless Travel (Phase 5)
 
 ```
-Dev/LAN:    Listen Server (one player hosts + plays)
-Production: Dedicated Server + Steam/EOS sessions
+Player approaches dungeon entrance in overworld
+  → Server: GetWorld()->ServerTravel("/Game/Maps/DungeonInstance?dungeon_id=XYZ?listen")
+    → Clients receive travel notification
+      → UE5 streams new level while keeping connection alive
+        → PlayerState preserved across travel
+          → Player spawns inside dungeon instance
 ```
+
+Key flag: `AGameMode::bUseSeamlessTravel = true`
+PlayerState data carried via `AGameMode::InitSeamlessTravelPlayer()`
+
+## Session Architecture by Phase
+
+| Phase | Model | Notes |
+|---|---|---|
+| 0–2 | Listen Server | One player hosts, dev-only |
+| 3–4 | Dedicated Server (single) | Packaged server binary |
+| 5+ | Overworld server + instance pool | Multiple server processes |
 
 ## Latency Considerations
 - Projectile spells: client-side prediction + server reconcile

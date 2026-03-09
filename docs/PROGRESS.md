@@ -1,14 +1,37 @@
-# Progress Log
+# MultiMagicDungeon — Progress
 
-_Append entries as work completes. Newest at top._
+_This file tracks active and recently completed work. Historical tasks live in `docs/tasks/`. Design decisions live in `docs/design/`. Keep this file short and current — archive aggressively._
+
+---
+
+## Active Tasks
+
+_None yet — Phase 0 planning complete, ready to begin implementation._
 
 ---
 
-## 2026-03-08 — Project Setup
-- Initialized UE 5.7 project (default third-person template or blank)
-- Initialized git repo with Unreal-appropriate .gitignore
-- Created .claude workspace (CLAUDE.md with project conventions)
-- Created docs workspace: PLAN.md, ARCHITECTURE.md, PROGRESS.md
-- **Next:** Phase 0 completion — add multiplayer modules, create base C++ classes
+## Recently Completed
+
+| Task | Summary | Date |
+|---|---|---|
+| — | Project scaffolded, repo initialized, workspace created | 2026-03-08 |
 
 ---
+
+## Current Phase
+**Phase 0 — Foundation** (planning complete, implementation not started)
+
+Next up: [TASK-001: Add Multiplayer Module Dependencies](tasks/TASK-001-multiplayer-modules.md)
+
+---
+
+## Phase Overview
+
+| Phase | Name | Status |
+|---|---|---|
+| 0 | Foundation | Planning done |
+| 1 | Network Framework | Not started |
+| 2 | GAS — Spells | Not started |
+| 3 | Dungeon + Enemies | Not started |
+| 4 | Persistence + Backend | Not started |
+| 5 | Persistent Overworld | Not started |
