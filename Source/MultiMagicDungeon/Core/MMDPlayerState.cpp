@@ -5,7 +5,7 @@
 AMMDPlayerState::AMMDPlayerState()
 {
 	PrimaryActorTick.bCanEverTick = false;
-	NetUpdateFrequency = 10.f;
+	SetNetUpdateFrequency(10.f);
 }
 
 void AMMDPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -29,10 +29,8 @@ void AMMDPlayerState::SetMana(float NewMana)
 
 void AMMDPlayerState::OnRep_Health()
 {
-	UE_LOG(LogMMD, Verbose, TEXT("%s Health -> %.1f"), *GetPlayerName(), Health);
 }
 
 void AMMDPlayerState::OnRep_Mana()
 {
-	UE_LOG(LogMMD, Verbose, TEXT("%s Mana -> %.1f"), *GetPlayerName(), Mana);
 }

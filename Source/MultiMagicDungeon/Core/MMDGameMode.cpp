@@ -14,7 +14,13 @@ AMMDGameMode::AMMDGameMode()
 
 	GameStateClass        = AMMDGameState::StaticClass();
 	PlayerStateClass      = AMMDPlayerState::StaticClass();
-	DefaultPawnClass      = AMMDPlayerCharacter::StaticClass();
+	// Spawn the Blueprint subclass (mesh/anims set in editor, not hardcoded in C++)
+	static ConstructorHelpers::FClassFinder<AMMDPlayerCharacter> BPFinder(
+		TEXT("/Game/BP_MMDPlayerCharacter"));
+	if (BPFinder.Succeeded())
+	{
+		DefaultPawnClass = BPFinder.Class;
+	}
 	PlayerControllerClass = AMMDPlayerController::StaticClass();
 	HUDClass              = AMMDHUD::StaticClass();
 }

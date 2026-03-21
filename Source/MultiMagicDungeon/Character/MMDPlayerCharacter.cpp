@@ -16,6 +16,7 @@ AMMDPlayerCharacter::AMMDPlayerCharacter()
 	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->TargetArmLength = 350.f;
 	SpringArm->bUsePawnControlRotation = true;
+	SpringArm->bDoCollisionTest = false;
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
@@ -57,11 +58,16 @@ void AMMDPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	EIC->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMMDPlayerCharacter::Look);
 	EIC->BindAction(JumpAction, ETriggerEvent::Started,   this, &ACharacter::Jump);
 	EIC->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+
+	UE_LOG(LogMMD, Warning, TEXT("SIPC: Class=%s Move=%s Bindings=%d"),
+		*GetClass()->GetName(), *GetNameSafe(MoveAction),
+		EIC->GetActionEventBindings().Num());
 }
 
 void AMMDPlayerCharacter::Move(const FInputActionValue& Value)
 {
 	const FVector2D V = Value.Get<FVector2D>();
+	UE_LOG(LogMMD, Warning, TEXT("Move: X=%.2f Y=%.2f"), V.X, V.Y);
 	if (!Controller) return;
 
 	const FRotator Yaw(0.f, Controller->GetControlRotation().Yaw, 0.f);

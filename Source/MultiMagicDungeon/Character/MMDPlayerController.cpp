@@ -5,7 +5,8 @@
 
 AMMDPlayerController::AMMDPlayerController()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	// PlayerController MUST tick — PlayerTick() runs ProcessPlayerInput()
+	// Setting bCanEverTick=false silently kills ALL input processing
 
 	static ConstructorHelpers::FObjectFinder<UInputMappingContext> IMCFinder(
 		TEXT("/Game/Input/IMC_Default"));
@@ -21,6 +22,7 @@ void AMMDPlayerController::BeginPlay()
 		// Game-only input mode — without this, keyboard events don't reach the pawn
 		SetInputMode(FInputModeGameOnly());
 		bShowMouseCursor = false;
+		UE_LOG(LogMMD, Warning, TEXT("PC::BeginPlay: SetInputMode(GameOnly) done"));
 	}
 }
 
@@ -31,6 +33,9 @@ void AMMDPlayerController::SetupInputComponent()
 	if (auto* Sub = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		Sub->AddMappingContext(DefaultMappingContext, 0);
+		UE_LOG(LogMMD, Warning, TEXT("PC::SetupInput: IMC=%s HasIt=%s"),
+			*GetNameSafe(DefaultMappingContext),
+			Sub->HasMappingContext(DefaultMappingContext) ? TEXT("Y") : TEXT("N"));
 	}
 	else
 	{
