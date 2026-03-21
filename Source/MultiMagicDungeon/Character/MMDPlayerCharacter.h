@@ -20,7 +20,6 @@ public:
 	AMMDPlayerState* GetMMDPlayerState() const;
 
 protected:
-	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 private:
@@ -30,12 +29,7 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "MMD|Camera")
 	TObjectPtr<UCameraComponent> Camera;
 
-	// Mouse look sensitivity applied to the Mouse2D input modifier (default 0.5 to avoid
-	// raw delta values feeling too fast; tune per-Blueprint subclass as needed).
-	UPROPERTY(EditDefaultsOnly, Category = "MMD|Input")
-	float MouseSensitivity = 0.5f;
-
-	// Enhanced Input (created programmatically in constructor — no editor assets)
+	// Loaded from Content/Input/ assets via ConstructorHelpers
 	UPROPERTY()
 	TObjectPtr<UInputAction> MoveAction;
 
@@ -45,9 +39,6 @@ private:
 	UPROPERTY()
 	TObjectPtr<UInputAction> JumpAction;
 
-	UPROPERTY()
-	TObjectPtr<UInputMappingContext> InputMappingContext;
-
-	void EnhancedMove(const FInputActionValue& Value);
-	void EnhancedLook(const FInputActionValue& Value);
+	void Move(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
 };
