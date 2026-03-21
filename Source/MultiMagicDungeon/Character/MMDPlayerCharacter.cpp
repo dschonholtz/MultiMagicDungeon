@@ -74,9 +74,12 @@ AMMDPlayerCharacter::AMMDPlayerCharacter()
 		Mapping.Modifiers.Add(Negate);
 	}
 
-	// Mouse — look (2D delta as a single axis)
+	// Mouse — look (2D delta as a single axis), scaled by sensitivity
 	{
-		InputMappingContext->MapKey(LookAction, EKeys::Mouse2D);
+		FEnhancedActionKeyMapping& Mapping = InputMappingContext->MapKey(LookAction, EKeys::Mouse2D);
+		auto* Scalar = NewObject<UInputModifierScalar>(InputMappingContext);
+		Scalar->Scalar = FVector(MouseSensitivity, MouseSensitivity, 1.f);
+		Mapping.Modifiers.Add(Scalar);
 	}
 
 	// Space — jump
