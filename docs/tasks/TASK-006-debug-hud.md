@@ -20,7 +20,18 @@ Replace with UMG widgets in Phase 1.
 - [x] Compile clean
 - [ ] PIE: both windows show both players' stats updating — manual post-merge
 
+## Additional Work (same branch)
+
+**Enhanced Input migration** — replaced broken Tick-based `IsInputKeyDown` polling with
+proper `UEnhancedInputComponent` bindings. Required to unblock PIE movement testing.
+- `UInputAction` (Move/Look/Jump) and `UInputMappingContext` created programmatically in constructor (no editor assets)
+- Mapping context registered in `BeginPlay` via `UEnhancedInputLocalPlayerSubsystem`
+- `PrimaryActorTick.bCanEverTick = false`
+
 ## Review Checklist
 - [x] `/review` — APPROVE: DrawHUD fires client-side only, PlayerArray read-only
 - [x] `/simplify` — two private helpers, each one job
 - [x] Compile: `Result: Succeeded`
+- [x] `/review` (Enhanced Input) — APPROVE: no authority issues, UPROPERTY guards all input objects
+- [x] `/simplify` (Enhanced Input) — no removals needed, constructor init is appropriately sized
+- [x] Compile (Enhanced Input): `Result: Succeeded`

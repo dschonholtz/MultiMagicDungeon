@@ -1,21 +1,15 @@
 #pragma once
 
 #include "GameFramework/Character.h"
+#include "InputActionValue.h"
 #include "MMDPlayerCharacter.generated.h"
 
 class UCameraComponent;
 class USpringArmComponent;
+class UInputAction;
+class UInputMappingContext;
 class AMMDPlayerState;
 
-/**
- * The player's physical presence in the world.
- * Movement replicated automatically by CharacterMovementComponent.
- *
- * Does NOT store persistent data (health, mana, spells) — that lives on AMMDPlayerState.
- *
- * Input: legacy bindings via DefaultInput.ini (temporary).
- * TODO Phase 1: replace with Enhanced Input + UInputMappingContext assets.
- */
 UCLASS()
 class MULTIMAGICDUNGEON_API AMMDPlayerCharacter : public ACharacter
 {
@@ -23,7 +17,6 @@ class MULTIMAGICDUNGEON_API AMMDPlayerCharacter : public ACharacter
 
 public:
 	AMMDPlayerCharacter();
-
 	AMMDPlayerState* GetMMDPlayerState() const;
 
 protected:
@@ -37,6 +30,19 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "MMD|Camera")
 	TObjectPtr<UCameraComponent> Camera;
 
-	void MoveForward(float Value);
-	void MoveRight(float Value);
+	// Enhanced Input (created programmatically in constructor — no editor assets)
+	UPROPERTY()
+	TObjectPtr<UInputAction> MoveAction;
+
+	UPROPERTY()
+	TObjectPtr<UInputAction> LookAction;
+
+	UPROPERTY()
+	TObjectPtr<UInputAction> JumpAction;
+
+	UPROPERTY()
+	TObjectPtr<UInputMappingContext> InputMappingContext;
+
+	void EnhancedMove(const FInputActionValue& Value);
+	void EnhancedLook(const FInputActionValue& Value);
 };
