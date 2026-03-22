@@ -4,6 +4,7 @@
 #include "Character/MMDPlayerCharacter.h"
 #include "Character/MMDPlayerController.h"
 #include "Online/MMDSessionSubsystem.h"
+#include "UI/MMDHUD.h"
 #include "MMDLog.h"
 
 AMMDGameMode::AMMDGameMode()
@@ -13,8 +14,15 @@ AMMDGameMode::AMMDGameMode()
 
 	GameStateClass        = AMMDGameState::StaticClass();
 	PlayerStateClass      = AMMDPlayerState::StaticClass();
-	DefaultPawnClass      = AMMDPlayerCharacter::StaticClass();
+	// Spawn the Blueprint subclass (mesh/anims set in editor, not hardcoded in C++)
+	static ConstructorHelpers::FClassFinder<AMMDPlayerCharacter> BPFinder(
+		TEXT("/Game/BP_MMDPlayerCharacter"));
+	if (BPFinder.Succeeded())
+	{
+		DefaultPawnClass = BPFinder.Class;
+	}
 	PlayerControllerClass = AMMDPlayerController::StaticClass();
+	HUDClass              = AMMDHUD::StaticClass();
 }
 
 void AMMDGameMode::BeginPlay()

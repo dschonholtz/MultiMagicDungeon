@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameFramework/GameStateBase.h"
+#include "GameFramework/GameState.h"
 #include "MMDGameState.generated.h"
 
 /**
@@ -8,7 +8,7 @@
  * game phase, match timer, dungeon seed. Extended per phase.
  */
 UCLASS()
-class MULTIMAGICDUNGEON_API AMMDGameState : public AGameStateBase
+class MULTIMAGICDUNGEON_API AMMDGameState : public AGameState
 {
 	GENERATED_BODY()
 

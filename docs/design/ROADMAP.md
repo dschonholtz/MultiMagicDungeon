@@ -25,14 +25,14 @@ _Goal: Players can connect, see each other move, and have replicated health/mana
 
 ---
 
-## Phase 2 — Gameplay Ability System (Spells)
-_Goal: 3 spells working with proper server authority, costs, cooldowns._
+## Phase 2 — Composable Spell System
+_Goal: Composable spell primitives with real-time key sequencing. Fire Splash + Fire Projectile working. See [MAGIC.md](MAGIC.md)._
 
-- TASK-008: GAS setup (AbilitySystemComponent, AttributeSet)
-- TASK-009: Fireball ability
-- TASK-010: FrostBolt ability
-- TASK-011: Telekinesis ability
-- TASK-012: Damage numbers and spell VFX (client-side, Multicast)
+- [TASK-008: GAS Foundation (ASC + AttributeSet)](../tasks/TASK-008-gas-foundation.md)
+- [TASK-009: Spell Data Types + Chain Component](../tasks/TASK-009-spell-data-types.md)
+- [TASK-010: Spell Input + Chain HUD](../tasks/TASK-010-spell-input-chain.md)
+- [TASK-011: Spell Execution Engine + First Spells](../tasks/TASK-011-spell-execution.md)
+- [TASK-012: Cast Animations + VFX Stubs](../tasks/TASK-012-spell-animations.md)
 
 ---
 

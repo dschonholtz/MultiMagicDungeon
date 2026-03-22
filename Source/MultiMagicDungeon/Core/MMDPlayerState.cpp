@@ -1,38 +1,45 @@
 #include "Core/MMDPlayerState.h"
+#include "AbilitySystem/MMDAbilitySystemComponent.h"
+#include "AbilitySystem/MMDAttributeSet.h"
+#include "AbilitySystem/MMDSpellCastAbility.h"
 #include "MMDLog.h"
-#include "Net/UnrealNetwork.h"
 
 AMMDPlayerState::AMMDPlayerState()
 {
 	PrimaryActorTick.bCanEverTick = false;
-	NetUpdateFrequency = 10.f;
+	SetNetUpdateFrequency(10.f);
+
+	AbilitySystemComponent = CreateDefaultSubobject<UMMDAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+
+	AttributeSet = CreateDefaultSubobject<UMMDAttributeSet>(TEXT("AttributeSet"));
 }
 
-void AMMDPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void AMMDPlayerState::BeginPlay()
 {
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AMMDPlayerState, Health);
-	DOREPLIFETIME(AMMDPlayerState, Mana);
+	Super::BeginPlay();
+
+	// Server grants abilities
+	if (HasAuthority() && AbilitySystemComponent)
+	{
+		FGameplayAbilitySpec SpellCastSpec(UMMDSpellCastAbility::StaticClass(), 1);
+		AbilitySystemComponent->GiveAbility(SpellCastSpec);
+		UE_LOG(LogMMD, Log, TEXT("PlayerState: granted SpellCastAbility"));
+	}
 }
 
-void AMMDPlayerState::SetHealth(float NewHealth)
+UAbilitySystemComponent* AMMDPlayerState::GetAbilitySystemComponent() const
 {
-	if (!HasAuthority()) return;
-	Health = NewHealth;
+	return AbilitySystemComponent;
 }
 
-void AMMDPlayerState::SetMana(float NewMana)
+float AMMDPlayerState::GetHealth() const
 {
-	if (!HasAuthority()) return;
-	Mana = NewMana;
+	return AttributeSet ? AttributeSet->GetHealth() : 0.f;
 }
 
-void AMMDPlayerState::OnRep_Health()
+float AMMDPlayerState::GetMana() const
 {
-	UE_LOG(LogMMD, Verbose, TEXT("%s Health -> %.1f"), *GetPlayerName(), Health);
-}
-
-void AMMDPlayerState::OnRep_Mana()
-{
-	UE_LOG(LogMMD, Verbose, TEXT("%s Mana -> %.1f"), *GetPlayerName(), Mana);
+	return AttributeSet ? AttributeSet->GetMana() : 0.f;
 }

@@ -3,10 +3,11 @@
 #include "GameFramework/PlayerController.h"
 #include "MMDPlayerController.generated.h"
 
+class UInputMappingContext;
+
 /**
- * Exists on server and owning client only.
- * Handles input routing, camera, and HUD lifecycle.
- * Phase 1+: Enhanced Input mappings wired here.
+ * Registers the default Enhanced Input mapping context on the local player
+ * and sets game-only input mode so keyboard events reach the pawn.
  */
 UCLASS()
 class MULTIMAGICDUNGEON_API AMMDPlayerController : public APlayerController
@@ -15,4 +16,12 @@ class MULTIMAGICDUNGEON_API AMMDPlayerController : public APlayerController
 
 public:
 	AMMDPlayerController();
+
+protected:
+	virtual void BeginPlay() override;
+	virtual void SetupInputComponent() override;
+
+private:
+	UPROPERTY()
+	TObjectPtr<UInputMappingContext> DefaultMappingContext;
 };

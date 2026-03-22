@@ -91,6 +91,8 @@ Never use `FString` as a map key or in hot paths.
 
 **Tick is single-threaded.** Everything on the game thread. Heavy work → `AsyncTask` or `FRunnable`.
 Disable tick on Actors that don't need it: `PrimaryActorTick.bCanEverTick = false` in constructor.
+**EXCEPTION: Never disable tick on PlayerController** — `PlayerTick()` runs `ProcessPlayerInput()`
+which routes ALL input. Disabling it silently kills all keyboard/mouse input.
 
 **`BeginPlay` fires after the world exists.** Constructor must not depend on the world.
 Always call `Super::BeginPlay()` first, `Super::EndPlay(EEndPlayReason)` last.
@@ -103,6 +105,24 @@ UE_LOG(LogMMD, Warning, TEXT("Value: %d"), MyInt);
 ```
 
 **No `GetAllActorsOfClass()` in Tick** — iterates every actor, O(n) every frame. Use registries.
+
+**Build target for PIE:** Always build `MultiMagicDungeonEditor` (editor DLL), not
+`MultiMagicDungeon` (standalone .exe). The standalone target is never loaded by PIE.
+
+**Enhanced Input setup (all 3 required):**
+1. `SetInputMode(FInputModeGameOnly())` in PlayerController::BeginPlay
+2. `AddMappingContext` in PlayerController::SetupInputComponent
+3. `BindAction` in Character::SetupPlayerInputComponent
+Missing any one = keyboard input silently doesn't reach the pawn.
+
+**GameMode ↔ GameState pairing:**
+`AGameMode` requires `AGameState`. `AGameModeBase` requires `AGameStateBase`.
+Mixing them causes "not compatible" error that silently breaks player spawning.
+
+**Visual assets belong in Blueprints, not C++:**
+Don't hardcode mesh/material/animation paths via ConstructorHelpers. Create a Blueprint
+subclass, set visuals in the editor, and load the BP class in GameMode. This is the one
+ConstructorHelpers reference to maintain.
 
 ---
 
@@ -131,12 +151,14 @@ When in doubt: split. Small classes are easier to replicate, test, and reason ab
 
 | Belongs in BP | Belongs in C++ |
 |---|---|
-| VFX / particle setup | All gameplay logic |
-| Sound cue references | Replication |
-| Material assignments | Ability activation |
-| Level layout / art | Damage / healing |
-| UI widget layout | AI decision making |
-| Data Asset values | Game state changes |
+| Skeletal/Static mesh assignments | All gameplay logic |
+| Animation blueprint references | Replication |
+| VFX / particle setup | Ability activation |
+| Sound cue references | Damage / healing |
+| Material assignments | AI decision making |
+| Level layout / art | Game state changes |
+| UI widget layout | Component creation / logic |
+| Data Asset values | Input bindings |
 
 If a Blueprint would need to call an RPC or check `HasAuthority()` — it's in the wrong place.
 
