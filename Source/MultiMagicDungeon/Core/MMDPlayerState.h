@@ -1,47 +1,42 @@
 #pragma once
 
+#include "AbilitySystemInterface.h"
 #include "GameFramework/PlayerState.h"
 #include "MMDPlayerState.generated.h"
 
+class UMMDAbilitySystemComponent;
+class UMMDAttributeSet;
+
 /**
  * Per-player replicated state. Persists across Character respawns.
- * All authoritative player data lives here, not on the Character.
- *
- * Phase 0: Health, Mana stubs with replication wired up.
- * Phase 2+: GAS AbilitySystemComponent moves here for persistence.
+ * Owns the AbilitySystemComponent and AttributeSet for GAS.
  */
 UCLASS()
-class MULTIMAGICDUNGEON_API AMMDPlayerState : public APlayerState
+class MULTIMAGICDUNGEON_API AMMDPlayerState : public APlayerState, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
 	AMMDPlayerState();
 
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void BeginPlay() override;
+
+	// IAbilitySystemInterface
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	UMMDAttributeSet* GetAttributeSet() const { return AttributeSet; }
+
+	/** Convenience wrappers — read from AttributeSet. */
+	UFUNCTION(BlueprintPure, Category = "MMD|Stats")
+	float GetHealth() const;
 
 	UFUNCTION(BlueprintPure, Category = "MMD|Stats")
-	float GetHealth() const { return Health; }
-
-	UFUNCTION(BlueprintPure, Category = "MMD|Stats")
-	float GetMana() const { return Mana; }
-
-	/** Server-only. Sets health and replicates to clients. */
-	void SetHealth(float NewHealth);
-
-	/** Server-only. Sets mana and replicates to clients. */
-	void SetMana(float NewMana);
+	float GetMana() const;
 
 private:
-	UPROPERTY(ReplicatedUsing = OnRep_Health)
-	float Health = 100.f;
+	UPROPERTY(VisibleAnywhere, Category = "MMD|Abilities")
+	TObjectPtr<UMMDAbilitySystemComponent> AbilitySystemComponent;
 
-	UPROPERTY(ReplicatedUsing = OnRep_Mana)
-	float Mana = 100.f;
-
-	UFUNCTION()
-	void OnRep_Health();
-
-	UFUNCTION()
-	void OnRep_Mana();
+	UPROPERTY()
+	TObjectPtr<UMMDAttributeSet> AttributeSet;
 };

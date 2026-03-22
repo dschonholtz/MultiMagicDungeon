@@ -4,8 +4,8 @@
 #include "MMDHUD.generated.h"
 
 /**
- * Debug HUD — draws all connected players' name, health, and mana using Canvas.
- * No UMG assets required. Replace with proper UMG widgets in Phase 1.
+ * Debug HUD — draws player stats and active spell chain using Canvas.
+ * No UMG assets required. Replace with proper UMG widgets later.
  */
 UCLASS()
 class MULTIMAGICDUNGEON_API AMMDHUD : public AHUD
@@ -18,4 +18,5 @@ public:
 private:
 	void DrawPlayerList();
 	void DrawCrosshair();
+	void DrawSpellChain();
 };

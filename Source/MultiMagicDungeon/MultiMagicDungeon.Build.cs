@@ -22,6 +22,8 @@ public class MultiMagicDungeon : ModuleRules
 			"OnlineSubsystem", "OnlineSubsystemUtils",
 			// Gameplay Ability System
 			"GameplayAbilities", "GameplayTags", "GameplayTasks",
+			// VFX
+			"Niagara",
 		});
 	}
 }
